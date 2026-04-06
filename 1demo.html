@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Vault</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #0a0a0f;
+    color: white;
+}
+
+/* MENU */
+.top-menu {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.menu-btn {
+    padding: 8px 16px;
+    border: 1px solid #1e293b;
+    background: rgba(15, 23, 42, 0.6);
+    color: #cbd5f5;
+    transform: skew(-10deg);
+    cursor: pointer;
+}
+
+/* PAGE SYSTEM */
+.page {
+    display: none;
+}
+
+.active {
+    display: block;
+}
+
+/* HERO */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8%;
+    background: radial-gradient(circle at center, #0f172a, #020617);
+}
+
+.hero-text {
+    max-width: 50%;
+}
+
+.hero-text h1 {
+    font-size: 60px;
+    background: linear-gradient(90deg,#00f0ff,#8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-text p {
+    font-size: 20px;
+    color: #94a3b8;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 30px;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(90deg,#06b6d4,#8b5cf6);
+    color: white;
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 1px solid #334155;
+    color: white;
+}
+
+/* HERO IMAGE */
+.hero-image img {
+    width: 550px;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6),
+                0 0 25px rgba(0,240,255,0.3);
+}
+
+/* CONTENT */
+.content {
+    padding: 80px 8%;
+}
+
+h1, h2 {
+    background: linear-gradient(90deg,#00f0ff,#8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card {
+    margin: 15px 0;
+    padding: 15px;
+    border: 1px solid #334155;
+    border-radius: 10px;
+}
+
+button {
+    padding: 12px 25px;
+    background: linear-gradient(90deg,#06b6d4,#8b5cf6);
+    border: none;
+    color: white;
+    border-radius: 8px;
+}
+/* ================= GLOBAL SMOOTH ================= */
+* {
+    scroll-behavior: smooth;
+}
+
+/* PAGE TRANSITION */
+.page {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.page.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ================= HERO ANIMATIONS ================= */
+
+/* TEXT FADE IN */
+.hero-text h1 {
+    animation: slideUp 1s ease forwards;
+}
+
+.hero-text p {
+    animation: fadeIn 1.5s ease forwards;
+}
+
+/* BUTTONS */
+.buttons {
+    animation: fadeIn 2s ease forwards;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 0 20px rgba(0,240,255,0.4);
+}
+
+/* HERO IMAGE FLOAT */
+.hero-image img {
+    animation: float 5s ease-in-out infinite;
+    transition: 0.4s;
+}
+
+.hero-image img:hover {
+    transform: scale(1.08) rotate(1deg);
+}
+
+/* ================= MENU ================= */
+.menu-btn {
+    transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+    transform: skew(-10deg) scale(1.1);
+    box-shadow: 0 0 15px #06b6d4;
+}
+
+/* ================= CARDS ================= */
+.card {
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* GLOW BORDER */
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: linear-gradient(90deg,#06b6d4,#8b5cf6,#06b6d4);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.card:hover::before {
+    opacity: 0.2;
+}
+
+.card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 0 25px rgba(0,240,255,0.3);
+}
+
+/* ================= HEADINGS ================= */
+h1, h2 {
+    animation: glowText 3s infinite alternate;
+}
+
+/* ================= BUTTON GLOW ================= */
+button {
+    transition: 0.3s;
+    position: relative;
+}
+
+button:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 25px #06b6d4;
+}
+
+/* ================= ANIMATIONS ================= */
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes glowText {
+    from { text-shadow: 0 0 10px #00f0ff; }
+    to { text-shadow: 0 0 25px #8b5cf6; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MENU -->
+<div class="top-menu">
+    <div class="menu-btn" onclick="showPage('home')">Home</div>
+    <div class="menu-btn" onclick="showPage('course')">AI Vault Course</div>
+    <div class="menu-btn" onclick="showPage('masterclass')">Free Masterclass</div>
+    <div class="menu-btn" onclick="showPage('about')">About</div>
+    <div class="menu-btn" onclick="showPage('parents')">Parents & Teachers</div>
+    <div class="menu-btn" onclick="showPage('contact')">Contact</div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="page active">
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Enter The AI Vault</h1>
+            <p>Build your future. Master the machine.</p>
+            <div class="buttons">
+                <button class="btn btn-primary">Enter the Vault</button>
+                <button class="btn btn-secondary">Start Learning</button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="Gemini_Generated_Image_53qo7453qo7453qo.png" alt="AI Vault">
+        </div>
+    </section>
+
+    <div class="content">
+
+        <h1>Master the Machine. Own the Future.</h1>
+        <p>Don’t let your child be a passenger in the AI revolution. Teach them to be a Navigator. Build elite skills for Academics, Creativity, and Career Leadership.</p>
+        <button>Join Free Masterclass</button>
+
+        <h2>Section 01: The Problem (The Shortcut Trap)</h2>
+        <div class="card">Students are using AI as a "Crutch," not a "Tool."</div>
+        <div class="card">The Warning: If the AI lifts the weights, the AI gets the muscles.</div>
+        <div class="card">Most students are falling into the Shortcut Trap—copy-pasting their way to weaker brains.</div>
+
+        <h2>Section 02: The Solution (The Navigator Protocol)</h2>
+        <div class="card">AI is not a cheating tool; it is a Thinking Operating System.</div>
+        <div class="card">We teach students to "Command" the machine, not just "Prompt" it.</div>
+        <div class="card">The Goal: Finish 4 hours of study in 20 minutes—with 100% understanding.</div>
+
+        <h2>Section 03: The Visionary Wall (Why This Matters Now)</h2>
+        <div class="card">"My kids will never be smarter than AI… but they’ll be really good at using AI." — Sam Altman, CEO of OpenAI</div>
+        <div class="card">"The machine provides the speed. You provide the direction." — AI Vault Creed</div>
+        <div class="card">"AI is the most impactful technology humanity has ever created." — Elon Musk</div>
+
+        <h2>Section 04: The Result</h2>
+        <div class="card">Intellectual Independence: Students who think for themselves.</div>
+        <div class="card">Time Mastery: Reclaiming 10+ hours a week for sports and hobbies.</div>
+        <div class="card">Future Readiness: Preparing for the high-level roles of 2030.</div>
+
+        <h2>Final CTA Section: Is your child ready to lead the machine?</h2>
+        <button>Reserve Free Masterclass Seat</button>
+
+    </div>
+</div>
+
+<!-- COURSE -->
+<div id="course" class="page content">
+    <h1>Your Roadmap to Command.</h1>
+    <p>Structured learning paths for every stage of growth.</p>
+
+    <h2>Group 1: 👶 The Explorers (Ages 7–10)</h2>
+    <div class="card">Focus: Curiosity & Safety.</div>
+    <div class="card">Objective: Understanding "How AI works" through creative play.</div>
+    <div class="card">Skills: AI storytelling, digital ethics, and responsible exploration.</div>
+
+    <h2>Group 2: 🛰️ The Navigators (Ages 11–13)</h2>
+    <div class="card">Focus: Academic Efficiency.</div>
+    <div class="card">Objective: Mastering the 3-Step Sift for school excellence.</div>
+    <div class="card">Skills: Turning "Information Avalanches" into simple notes, formula mastery, and exam readiness.</div>
+
+    <h2>Group 3: 🏗️ The Architects (Ages 14–16)</h2>
+    <div class="card">Focus: Strategic Leadership.</div>
+    <div class="card">Objective: Building a 2030-ready professional profile.</div>
+    <div class="card">Skills: Advanced data synthesis, university portfolio building, and leading AI-driven projects.</div>
+
+    <h2>Core Curriculum Pillars:</h2>
+    <div class="card">The 3-Step Sift: Our proprietary study acceleration framework.</div>
+    <div class="card">The S.A.F.E. Shield: Identifying AI "hallucinations" and protecting data.</div>
+    <div class="card">The Mirror Test: Proving mastery without the screen.</div>
+
+    <button>Enroll in a Course</button>
+</div>
+
+<!-- MASTERCLASS -->
+<div id="masterclass" class="page content">
+    <h1>AI World — The Navigator’s Protocol.</h1>
+    <p>A high-impact session for Parents and Students to master the AI era.</p>
+    <button>Reserve Free Seat</button>
+
+    <h2>Inside the Masterclass:</h2>
+    <div class="card">The Weightlifter Metaphor: Why shortcuts are the enemy of growth.</div>
+    <div class="card">The 3-Step Sift Demo: Watch us simplify a complex chapter in 120 seconds.</div>
+    <div class="card">The Safety Protocol: 3 things every child must check before trusting AI.</div>
+    <div class="card">Career 2030: The skills that AI cannot replace.</div>
+
+    <p>Duration: 60 Minutes | Mode: Live Online | Cost: ₹0 (Limited Seats)</p>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="page content">
+    <h1>Technology Foundation. Educator’s Heart.</h1>
+
+    <h2>The Story of Geetanjali Gupta:</h2>
+    <div class="card">The IT Years: Master’s in Computer Applications (MCA). 6 years in Enterprise IT and SAP systems.</div>
+    <div class="card">The Teaching Years: 15+ years mastering the art of teaching Math and JEE Foundation.</div>
+    <div class="card">The Realization: Seeing students use AI as a crutch prompted the creation of AI Vault.</div>
+
+    <h2>Our Learning Philosophy:</h2>
+    <div class="card">Brain-First: Technology should amplify the human mind, not replace it.</div>
+    <div class="card">Calm Authority: We don't chase "Hype." We build "Skills."</div>
+    <div class="card">The Navigator Mindset: We believe every child can be the "Brain Boss" of their technology.</div>
+</div>
+
+<!-- PARENTS -->
+<div id="parents" class="page content">
+    <h1>Turning "Screen Time" into "Skill Time."</h1>
+
+    <h2>Addressing Your Concerns:</h2>
+    <div class="card">Distraction: We move children from "Passive Scrollers" to "Active Builders."</div>
+    <div class="card">Overdependence: Our Mirror Test ensures they can explain concepts without the device.</div>
+    <div class="card">Academic Integrity: We teach AI as a "Study Buddy," not a "Homework Ghostwriter."</div>
+
+    <h2>The Parent Benefit:</h2>
+    <div class="card">Reduced need for constant tuition.</div>
+    <div class="card">Peace of mind knowing your child is using technology safely.</div>
+    <div class="card">A child who is prepared for the competitive landscape of the future.</div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page content">
+    <h1>Join the Mission.</h1>
+
+    <div class="card">WhatsApp Support: Chat with our team for enrollment help. [Direct Link]</div>
+    <div class="card">Email: support@aivault.in</div>
+    <div class="card">Location: Headquartered in Pune | Serving Navigators Worldwide.</div>
+
+    <button>Get in Touch</button>
+</div>
+
+<script>
+function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+}
+</script>
+
+</body>
+</html>
